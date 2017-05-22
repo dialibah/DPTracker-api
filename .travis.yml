@@ -1,3 +1,6 @@
 language: java
 jdk:
  - oraclejdk8
+
+notifications:
+  slack: dialibah-techno:PQlY9lTd5PjVR24feE5ATPRo
