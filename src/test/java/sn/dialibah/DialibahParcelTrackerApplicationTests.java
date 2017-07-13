@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 public class DialibahParcelTrackerApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void fake() {
 		assertNotNull("fake test", new Object());
 	}
 
