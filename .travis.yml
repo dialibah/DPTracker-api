@@ -1,6 +1,8 @@
 language: java
 jdk:
  - oraclejdk8
+services:
+ - mongodb
 
 notifications:
   slack: dialibah-techno:PQlY9lTd5PjVR24feE5ATPRo
