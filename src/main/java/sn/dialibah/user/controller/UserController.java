@@ -45,7 +45,7 @@ public class UserController {
                                               final HttpServletResponse response) {
         LOGGER.debug(LOG_HEADER + " SIGNING IN user ",loginDataBean);
         final UserDataBean userDataBean = userAccountService
-                .login(loginDataBean.getUsernameOrEmail(), loginDataBean.getPassword());
+                .login(loginDataBean.getEmail(), loginDataBean.getPassword());
         return new ResponseEntity<>(userDataBean, HttpStatus.OK);
     }
 }

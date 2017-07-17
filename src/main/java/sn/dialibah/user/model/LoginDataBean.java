@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class LoginDataBean {
 
 	@NotNull
-	private String usernameOrEmail;
+	private String email;
 
 	@NotNull
 	private String password;

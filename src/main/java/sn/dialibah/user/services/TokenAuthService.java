@@ -41,9 +41,10 @@ public class TokenAuthService {
 				.compact();
 		Map<String, String> profile = new HashMap<>();
 		profile.put("email", user.getUser().getEmail());
-		profile.put("firstname", user.getUser().getFirstName());
+		profile.put("firstname", user.getUser().getFirstName());;
 		profile.put("lastname", user.getUser().getLastName());
 		profile.put("username", user.getUser().getUsername());
+		profile.put("token", jwt);
 
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		objectMapper.writeValue(response.getWriter(), profile);

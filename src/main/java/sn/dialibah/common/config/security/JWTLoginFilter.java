@@ -39,7 +39,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                 .readValue(httpServletRequest.getInputStream(), LoginDataBean.class);
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        credentials.getUsernameOrEmail(),
+                        credentials.getEmail(),
                         credentials.getPassword()));
     }
 
