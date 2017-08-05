@@ -4,6 +4,7 @@ import sn.dialibah.user.model.RegistrationDataBean;
 import sn.dialibah.user.model.UserDataBean;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Created by nureynisow on 25/03/2017.
@@ -33,4 +34,10 @@ public interface IUserAccountService {
 	 * @return a {@link UserDataBean}
 	 */
 	UserDataBean getUserDetails(String usernameOrEmail);
+
+	/**
+	 * Retrieves all users
+	 * @return a List of {@link UserDataBean}
+	 */
+	List<UserDataBean> getUsers();
 }

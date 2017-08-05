@@ -14,6 +14,9 @@ import sn.dialibah.user.model.UserDataBean;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by nureynisow on 25/03/2017.
@@ -76,7 +79,14 @@ public class UserAccountService implements IUserAccountService {
         return fromEntity(userEntity);
     }
 
-    private UserDataBean fromEntity(final UserEntity userEntity) {
+    @Override
+    public List<UserDataBean> getUsers() {
+        return StreamSupport.stream(userRepository.findAll().spliterator(), true)
+                .map(UserAccountService::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    private static UserDataBean fromEntity(final UserEntity userEntity) {
         return UserDataBean.builder()
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
@@ -84,6 +94,7 @@ public class UserAccountService implements IUserAccountService {
                 .password(userEntity.getPassword())
                 .email(userEntity.getEmail())
                 .role(userEntity.getRole())
+                .active(userEntity.isActive())
                 .activationToken(userEntity.getActivationToken())
                 .build();
     }

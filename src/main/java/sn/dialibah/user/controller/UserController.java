@@ -17,6 +17,7 @@ import sn.dialibah.user.services.IUserAccountService;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Created by nureynisow on 25/03/2017.
@@ -38,6 +39,13 @@ public class UserController {
             throws NoSuchAlgorithmException {
         LOGGER.debug(LOG_HEADER + " SIGNING UP user ",registrationDataBean);
         return new ResponseEntity<>(userAccountService.register(registrationDataBean), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "")
+    public ResponseEntity<List<UserDataBean>> getAllUsers(){
+        LOGGER.debug(LOG_HEADER + "Get all users in db");
+        return new ResponseEntity<>(userAccountService.getUsers(), HttpStatus.OK);
+
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "login")
