@@ -40,4 +40,6 @@ public interface IUserAccountService {
 	 * @return a List of {@link UserDataBean}
 	 */
 	List<UserDataBean> getUsers();
+
+    UserDataBean patch(String id, UserDataBean user);
 }

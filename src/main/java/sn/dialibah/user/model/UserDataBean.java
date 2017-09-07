@@ -18,6 +18,8 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class UserDataBean {
 
+	private String id;
+
 	private String firstName;
 
 	private String lastName;

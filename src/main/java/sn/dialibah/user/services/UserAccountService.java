@@ -86,8 +86,14 @@ public class UserAccountService implements IUserAccountService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public UserDataBean patch(String id, UserDataBean user) {
+        return this.userRepository.patchUser(id, user);
+    }
+
     private static UserDataBean fromEntity(final UserEntity userEntity) {
         return UserDataBean.builder()
+                .id(userEntity.getId())
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
                 .username(userEntity.getUsername())
