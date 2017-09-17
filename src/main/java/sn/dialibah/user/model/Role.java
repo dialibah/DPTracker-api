@@ -1,7 +1,9 @@
 package sn.dialibah.user.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -10,14 +12,12 @@ import org.springframework.security.core.GrantedAuthority;
  */
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role implements GrantedAuthority {
 
 
 	private String roleId;
-
-	public Role(String roleId) {
-		this.roleId = roleId;
-	}
 
 	@Override
 	public String getAuthority() {

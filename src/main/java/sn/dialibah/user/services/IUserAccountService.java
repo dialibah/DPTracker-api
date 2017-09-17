@@ -42,4 +42,6 @@ public interface IUserAccountService {
 	List<UserDataBean> getUsers();
 
     UserDataBean patch(String id, UserDataBean user);
+
+    UserDataBean activateUser(String id);
 }

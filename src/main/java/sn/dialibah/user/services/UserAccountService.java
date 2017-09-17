@@ -1,5 +1,6 @@
 package sn.dialibah.user.services;
 
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class UserAccountService implements IUserAccountService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private DozerBeanMapper mapper;
 
     @Override
     public UserDataBean register(final RegistrationDataBean registrationDataBean) throws NoSuchAlgorithmException {
@@ -89,6 +93,14 @@ public class UserAccountService implements IUserAccountService {
     @Override
     public UserDataBean patch(String id, UserDataBean user) {
         return this.userRepository.patchUser(id, user);
+    }
+
+    @Override
+    public UserDataBean activateUser(String id) {
+        final UserDataBean user = this.mapper.map(this.userRepository.findUserById(id), UserDataBean.class);
+        user.setActive(!user.isActive());
+        UserEntity userEntity = this.userRepository.save(this.mapper.map(user, UserEntity.class));
+        return this.mapper.map(userEntity, UserDataBean.class);
     }
 
     private static UserDataBean fromEntity(final UserEntity userEntity) {

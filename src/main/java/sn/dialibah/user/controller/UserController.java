@@ -38,11 +38,17 @@ public class UserController {
         return new ResponseEntity<>(userAccountService.register(registrationDataBean), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity<UserDataBean> updateUser(@PathVariable String id,
                                      @RequestBody final UserDataBean user){
         LOGGER.debug(LOG_HEADER + " Updating user ",id);
         return new ResponseEntity<>(userAccountService.patch(id, user), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{id}/activateToggle", method = RequestMethod.PATCH)
+    public ResponseEntity<UserDataBean> toggleActivateUser(@PathVariable String id){
+        LOGGER.debug(LOG_HEADER + " Activating user ",id);
+        return new ResponseEntity<>(userAccountService.activateUser(id), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "")
