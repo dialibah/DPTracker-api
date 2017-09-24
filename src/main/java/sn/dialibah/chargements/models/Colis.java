@@ -17,4 +17,12 @@ import lombok.NoArgsConstructor;
 public class Colis {
 
     private String guid;
+
+    private TypeColis typeColis;
+
+    private Double poids;
+
+    private ContactBean destinataire;
+
+    private ContactBean expediteur;
 }
