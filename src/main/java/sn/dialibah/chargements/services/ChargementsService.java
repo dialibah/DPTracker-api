@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sn.dialibah.chargements.models.Chargement;
 import sn.dialibah.chargements.models.ChargementEntity;
+import sn.dialibah.chargements.models.StatutChargement;
 import sn.dialibah.chargements.repositories.ChargementsRepository;
 
 import java.util.UUID;
@@ -32,6 +33,7 @@ public class ChargementsService implements IChargementsService {
         final ChargementEntity chargement = this.mapper.map(
                 Chargement.builder()
                         .guid(buildGuid())
+                        .statutChargement(StatutChargement.CREATED)
                         .build(),
                 ChargementEntity.class);
         return this.mapper.map(this.chargementsRepository.save(chargement), Chargement.class);
