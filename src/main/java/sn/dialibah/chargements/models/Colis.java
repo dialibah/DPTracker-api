@@ -20,6 +20,8 @@ public class Colis {
 
     private TypeColis typeColis;
 
+    private String createdBy;
+
     private Double poids;
 
     private ContactBean destinataire;

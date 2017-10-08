@@ -8,4 +8,6 @@ import sn.dialibah.chargements.models.ChargementEntity;
  * for DPTracker
  */
 public interface ChargementsRepository extends PagingAndSortingRepository<ChargementEntity, String> {
+
+    ChargementEntity findByGuid(String chargementId);
 }

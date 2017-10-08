@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sn.dialibah.user.model.UserDataBean;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +20,7 @@ public class Chargement {
 
     private String guid;
 
-    private UserDataBean createdBy;
+    private String createdBy;
 
     private LocalDate leavingDate;
 

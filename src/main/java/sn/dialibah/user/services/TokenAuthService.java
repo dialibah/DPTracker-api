@@ -1,8 +1,10 @@
 package sn.dialibah.user.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ import static java.util.Collections.emptyList;
  * Created by nureynisow on 13/04/2017.
  * for DekWay
  */
+@Slf4j
 public class TokenAuthService {
 
 	private static final long EXPIRATION_TIME = 3600000;
@@ -55,10 +58,16 @@ public class TokenAuthService {
 	public static Authentication getAuthentication(HttpServletRequest servletRequest) {
 		String token = servletRequest.getHeader(AUTH_HEADER_NAME);
 		if(token != null){
-			String user = Jwts.parser()
-					.setSigningKey(SECRET)
-					.parseClaimsJws(token.replace(TOKEN_PREFIX,""))
-					.getBody().getSubject();
+			String user;
+			try {
+				user = Jwts.parser()
+						.setSigningKey(SECRET)
+						.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+						.getBody().getSubject();
+			}catch (ExpiredJwtException expiredJwtException){
+				log.debug("Token expired");
+				return null;
+			}
 			return user == null ? null : new UsernamePasswordAuthenticationToken(user, null, emptyList());
 		}
 		return null;

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import sn.dialibah.user.model.UserDataBean;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +28,7 @@ public class ChargementEntity {
     @Indexed(unique = true)
     private String guid;
 
-    private UserDataBean createdBy;
+    private String createdBy;
 
     private LocalDate leavingDate;
 
