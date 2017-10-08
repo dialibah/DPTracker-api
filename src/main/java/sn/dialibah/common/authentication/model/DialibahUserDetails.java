@@ -2,6 +2,7 @@ package sn.dialibah.common.authentication.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sn.dialibah.user.model.UserDataBean;
@@ -14,6 +15,7 @@ import java.util.Collections;
  * for DekWay
  */
 @Data
+@NoArgsConstructor
 @Builder
 public class DialibahUserDetails implements UserDetails {
 

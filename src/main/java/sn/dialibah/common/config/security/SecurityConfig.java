@@ -20,11 +20,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private PasswordEncoder passwordEncorder;
+    private final PasswordEncoder passwordEncorder;
+
+    private final UserDetailsService dialibahUserDetailsService;
 
     @Autowired
-    private UserDetailsService dialibahUserDetailsService;
+    public SecurityConfig(PasswordEncoder passwordEncorder, UserDetailsService dialibahUserDetailsService) {
+        this.passwordEncorder = passwordEncorder;
+        this.dialibahUserDetailsService = dialibahUserDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

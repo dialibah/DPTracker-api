@@ -15,12 +15,17 @@ import sn.dialibah.user.services.IUserAccountService;
 @Configuration
 public class DialibahUserDetailsService implements UserDetailsService {
 
+    private final IUserAccountService userAccountService;
+
     @Autowired
-    private IUserAccountService userAccountService;
+    public DialibahUserDetailsService(IUserAccountService userAccountService) {
+        this.userAccountService = userAccountService;
+    }
 
     @Override
     public DialibahUserDetails loadUserByUsername(final String usernameOrEmail) throws UsernameNotFoundException {
         final UserDataBean userDataBean = userAccountService.getUserDetails(usernameOrEmail);
+        if(userDataBean != null && !userDataBean.isActive()) return new DialibahUserDetails();
         return DialibahUserDetails.builder()
                 .user(userDataBean).build();
     }

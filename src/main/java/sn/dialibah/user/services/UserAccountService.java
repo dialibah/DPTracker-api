@@ -26,14 +26,18 @@ import java.util.stream.StreamSupport;
 @Service
 public class UserAccountService implements IUserAccountService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final DozerBeanMapper mapper;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private DozerBeanMapper mapper;
+    public UserAccountService(UserRepository userRepository, PasswordEncoder passwordEncoder, DozerBeanMapper mapper) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.mapper = mapper;
+    }
 
     @Override
     public UserDataBean register(final RegistrationDataBean registrationDataBean) throws NoSuchAlgorithmException {
