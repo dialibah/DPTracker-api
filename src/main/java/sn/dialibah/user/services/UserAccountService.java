@@ -1,5 +1,6 @@
 package sn.dialibah.user.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,7 @@ import sn.dialibah.user.model.RegistrationDataBean;
 import sn.dialibah.user.model.Role;
 import sn.dialibah.user.model.UserDataBean;
 
+import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -24,6 +26,7 @@ import java.util.stream.StreamSupport;
  * for DekWay
  */
 @Service
+@Slf4j
 public class UserAccountService implements IUserAccountService {
 
     private final UserRepository userRepository;
@@ -41,6 +44,7 @@ public class UserAccountService implements IUserAccountService {
 
     @Override
     public UserDataBean register(final RegistrationDataBean registrationDataBean) throws NoSuchAlgorithmException {
+        log.debug("Registering user : {}", registrationDataBean.getEmail());
         final LocalDateTime now = LocalDateTime.now();
         final UserEntity userEntity = UserEntity.builder()
                 .firstName(registrationDataBean.getFirstName())
@@ -59,6 +63,18 @@ public class UserAccountService implements IUserAccountService {
                 )
                 .build();
         return fromEntity(userRepository.save(userEntity));
+    }
+
+    @PostConstruct
+    private void registerRoot() throws NoSuchAlgorithmException {
+        final String email = "root@dialibah.fr";
+        userRepository.deleteByEmail(email);
+        UserDataBean user = this.register(RegistrationDataBean.builder()
+                .email(email)
+                .password("Azerty123")
+
+                .build());
+        this.activateUser(user.getId());
     }
 
     @Override
@@ -101,6 +117,7 @@ public class UserAccountService implements IUserAccountService {
 
     @Override
     public UserDataBean activateUser(String id) {
+        log.debug("Activating user {}", id);
         final UserDataBean user = this.mapper.map(this.userRepository.findUserById(id), UserDataBean.class);
         user.setActive(!user.isActive());
         UserEntity userEntity = this.userRepository.save(this.mapper.map(user, UserEntity.class));

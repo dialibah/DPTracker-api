@@ -2,7 +2,8 @@ package sn.dialibah.user.dao.repositories;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import sn.dialibah.user.dao.entities.UserEntity;
-import sn.dialibah.user.model.UserDataBean;
+
+import java.util.List;
 
 /**
  * Created by nureynisow on 25/03/2017.
@@ -14,4 +15,6 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, S
     UserEntity findUserByEmail(String email);
 
     UserEntity findUserById(String Id);
+
+    List<UserEntity> deleteByEmail(String email);
 }

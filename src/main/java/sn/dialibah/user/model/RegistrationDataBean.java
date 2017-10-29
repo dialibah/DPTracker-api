@@ -1,6 +1,7 @@
 package sn.dialibah.user.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RegistrationDataBean {
 
     private String firstName;
