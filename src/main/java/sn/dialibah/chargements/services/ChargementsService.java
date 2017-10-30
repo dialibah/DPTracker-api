@@ -8,6 +8,7 @@ import sn.dialibah.chargements.repositories.ChargementsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -74,8 +75,19 @@ public class ChargementsService implements IChargementsService {
     @Override
     public Chargement updateChargement(String chargementId, Chargement chargement) {
         ChargementEntity chargementEntity = this.chargementsRepository.findByGuid(chargementId);
+        String chargementMongoId = chargementEntity.getId();
+        chargementEntity = mapper.map(chargement, ChargementEntity.class);
+        chargementEntity.setId(chargementMongoId);
 
-        return null;
+        return mapper.map(chargementsRepository.save(chargementEntity), Chargement.class);
+    }
+
+    @Override
+    public Colis getColis(String chargementId, String colisId) {
+        final ChargementEntity chargementEntity = this.chargementsRepository.findByGuid(chargementId);
+        return  chargementEntity.getColis().stream()
+                .filter(colis1 -> colis1.getGuid().equals(colisId))
+                .findFirst().orElseThrow(() -> new NoSuchElementException("Colis "+colisId+" not found in "+ chargementId));
     }
 
     private String buildGuid() {

@@ -20,6 +20,8 @@ public class Chargement {
 
     private String guid;
 
+    private String description;
+
     private String createdBy;
 
     private LocalDate leavingDate;

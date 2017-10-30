@@ -25,6 +25,8 @@ public class ChargementEntity {
     @Id
     private String id;
 
+    private String description;
+
     @Indexed(unique = true)
     private String guid;
 

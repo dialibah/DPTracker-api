@@ -60,4 +60,10 @@ public class ChargementsController {
         log.debug("Update chargement {} with", chargementId, chargement);
         return new ResponseEntity<>(this.chargementsService.updateChargement(chargementId, chargement), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "{chargementId}/colis/{colisId}", method = RequestMethod.GET)
+    public ResponseEntity<Colis> getColis(@PathVariable("chargementId") String chargementId, @PathVariable("colisId") String colisId){
+        log.debug("Get colis {} of chargement {}", colisId, chargementId);
+        return new ResponseEntity<>(this.chargementsService.getColis(chargementId, colisId), HttpStatus.OK);
+    }
 }
