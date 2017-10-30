@@ -71,6 +71,13 @@ public class ChargementsService implements IChargementsService {
         return this.mapper.map(chargementEntity, Chargement.class);
     }
 
+    @Override
+    public Chargement updateChargement(String chargementId, Chargement chargement) {
+        ChargementEntity chargementEntity = this.chargementsRepository.findByGuid(chargementId);
+
+        return null;
+    }
+
     private String buildGuid() {
         return UUID.randomUUID().toString();
     }

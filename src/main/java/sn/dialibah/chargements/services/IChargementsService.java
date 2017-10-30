@@ -45,4 +45,6 @@ public interface IChargementsService {
      * @return the {@link Chargement}
      */
     Chargement getChargement(String chargementId);
+
+    Chargement updateChargement(String chargementId, Chargement chargement);
 }

@@ -49,9 +49,15 @@ public class ChargementsController {
         return new ResponseEntity<>(this.chargementsService.getAllChargements(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{chargementId}")
+    @RequestMapping(value = "{chargementId}", method = RequestMethod.GET)
     public ResponseEntity<Chargement> getChargement(@PathVariable("chargementId") String chargementId){
         log.debug("Get chargement {}", chargementId);
         return new ResponseEntity<>(this.chargementsService.getChargement(chargementId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{chargementId}", method = RequestMethod.PUT)
+    public ResponseEntity<Chargement> updateChargement(@PathVariable("chargementId") String chargementId, @RequestBody Chargement chargement){
+        log.debug("Update chargement {} with", chargementId, chargement);
+        return new ResponseEntity<>(this.chargementsService.updateChargement(chargementId, chargement), HttpStatus.OK);
     }
 }
