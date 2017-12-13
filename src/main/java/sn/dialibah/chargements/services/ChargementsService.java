@@ -2,14 +2,13 @@ package sn.dialibah.chargements.services;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import sn.dialibah.chargements.models.*;
 import sn.dialibah.chargements.repositories.ChargementsRepository;
+import sn.dialibah.common.exception.ColisNotFoundException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -88,6 +87,28 @@ public class ChargementsService implements IChargementsService {
         return  chargementEntity.getColis().stream()
                 .filter(colis1 -> colis1.getGuid().equals(colisId))
                 .findFirst().orElseThrow(() -> new NoSuchElementException("Colis "+colisId+" not found in "+ chargementId));
+    }
+
+    @Override
+    public Colis updateColis(String chargementId, String colisId, Colis colis) {
+        final ChargementEntity chargementEntity = this.chargementsRepository.findByGuid(chargementId);
+        List<Colis> colisInChgt = chargementEntity.getColis();
+        colisInChgt = colisInChgt.stream().map(c -> {
+            if(c.getGuid().equals(colisId)){
+                c = colis;
+                c.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+                c.setGuid(colisId);
+            }
+            return c;
+        }).collect(Collectors.toList());
+        chargementEntity.setColis(colisInChgt);
+        chargementsRepository.save(chargementEntity);
+        Optional<Colis> savedColis = chargementEntity.getColis()
+                .stream()
+                .filter(colis1 -> colis.getGuid().equals(colisId))
+                .findFirst();
+        if(!savedColis.isPresent()) throw new ColisNotFoundException("Colis not found");
+        return savedColis.get();
     }
 
     private String buildGuid() {

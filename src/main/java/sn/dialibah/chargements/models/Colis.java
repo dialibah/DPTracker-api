@@ -22,7 +22,15 @@ public class Colis {
 
     private String createdBy;
 
+    private String dateEnlevement;
+
+    private String lieuEnlevement;
+
     private Double poids;
+
+    private String dimension;
+
+    private String detail;
 
     private ContactBean destinataire;
 

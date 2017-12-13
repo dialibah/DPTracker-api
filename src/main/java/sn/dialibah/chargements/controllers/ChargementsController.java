@@ -66,4 +66,10 @@ public class ChargementsController {
         log.debug("Get colis {} of chargement {}", colisId, chargementId);
         return new ResponseEntity<>(this.chargementsService.getColis(chargementId, colisId), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "{chargementId}/colis/{colisId}", method = RequestMethod.PUT)
+    public ResponseEntity<Colis> updateColis(@PathVariable("chargementId") String chargementId, @PathVariable("colisId") String colisId, @RequestBody Colis colis){
+        log.debug("Update colis {} of chargement {}", colisId, chargementId);
+        return new ResponseEntity<>(this.chargementsService.updateColis(chargementId, colisId, colis), HttpStatus.OK);
+    }
 }

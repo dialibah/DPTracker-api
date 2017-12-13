@@ -49,4 +49,6 @@ public interface IChargementsService {
     Chargement updateChargement(String chargementId, Chargement chargement);
 
 	Colis getColis(String chargementId, String colisId);
+
+	Colis updateColis(String chargementId, String colisId, Colis colis);
 }
