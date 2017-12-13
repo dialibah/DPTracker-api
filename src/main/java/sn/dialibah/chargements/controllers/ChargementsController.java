@@ -55,6 +55,12 @@ public class ChargementsController {
         return new ResponseEntity<>(this.chargementsService.getChargement(chargementId), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "{chargementId}", method = RequestMethod.DELETE)
+    public ResponseEntity<List<Chargement>> deleteChargement(@PathVariable("chargementId") String chargementId){
+        log.debug("Delete chargement {}", chargementId);
+        return new ResponseEntity<>(this.chargementsService.deleteCHargement(chargementId), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "{chargementId}", method = RequestMethod.PUT)
     public ResponseEntity<Chargement> updateChargement(@PathVariable("chargementId") String chargementId, @RequestBody Chargement chargement){
         log.debug("Update chargement {} with", chargementId, chargement);
@@ -65,6 +71,12 @@ public class ChargementsController {
     public ResponseEntity<Colis> getColis(@PathVariable("chargementId") String chargementId, @PathVariable("colisId") String colisId){
         log.debug("Get colis {} of chargement {}", colisId, chargementId);
         return new ResponseEntity<>(this.chargementsService.getColis(chargementId, colisId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{chargementId}/colis/{colisId}", method = RequestMethod.DELETE)
+    public ResponseEntity<List<Colis>> deleteColis(@PathVariable("chargementId") String chargementId, @PathVariable("colisId") String colisId){
+        log.debug("Remove colis {} of chargement {}", colisId, chargementId);
+        return new ResponseEntity<>(this.chargementsService.deleteColis(chargementId, colisId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{chargementId}/colis/{colisId}", method = RequestMethod.PUT)

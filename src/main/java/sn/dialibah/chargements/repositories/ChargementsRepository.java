@@ -9,5 +9,7 @@ import sn.dialibah.chargements.models.ChargementEntity;
  */
 public interface ChargementsRepository extends PagingAndSortingRepository<ChargementEntity, String> {
 
-    ChargementEntity findByGuid(String chargementId);
+	ChargementEntity findByGuid(String chargementId);
+
+	Long deleteByGuid(String chargementId);
 }

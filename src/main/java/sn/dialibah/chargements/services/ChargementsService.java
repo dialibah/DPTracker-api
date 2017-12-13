@@ -111,6 +111,25 @@ public class ChargementsService implements IChargementsService {
         return savedColis.get();
     }
 
+    @Override
+    public List<Chargement> deleteCHargement(String chargementId) {
+        this.chargementsRepository.deleteByGuid(chargementId);
+        return this.getAllChargements();
+    }
+
+    @Override
+    public List<Colis> deleteColis(String chargementId, String colisId) {
+        final ChargementEntity chargementEntity = this.chargementsRepository.findByGuid(chargementId);
+        List<Colis> colisInChgt = chargementEntity.getColis();
+        if(!colisInChgt.removeIf(c -> c.getGuid().equals(colisId)))
+            throw new ColisNotFoundException("Colis not found");
+
+        chargementEntity.setColis(colisInChgt);
+        chargementsRepository.save(chargementEntity);
+
+        return colisInChgt;
+    }
+
     private String buildGuid() {
         return UUID.randomUUID().toString();
     }

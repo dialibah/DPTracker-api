@@ -51,4 +51,8 @@ public interface IChargementsService {
 	Colis getColis(String chargementId, String colisId);
 
 	Colis updateColis(String chargementId, String colisId, Colis colis);
+
+	List<Chargement> deleteCHargement(String chargementId);
+
+	List<Colis> deleteColis(String chargementId, String colisId);
 }
