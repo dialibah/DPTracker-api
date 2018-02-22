@@ -1,10 +1,13 @@
 package sn.dialibah.user.services;
 
+import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sn.dialibah.common.exception.AbstractException;
 import sn.dialibah.user.dao.entities.UserEntity;
 import sn.dialibah.user.dao.repositories.UserRepository;
 import sn.dialibah.user.exception.LoginFailedException;
@@ -43,7 +46,7 @@ public class UserAccountService implements IUserAccountService {
     }
 
     @Override
-    public UserDataBean register(final RegistrationDataBean registrationDataBean) throws NoSuchAlgorithmException {
+    public UserDataBean register(final RegistrationDataBean registrationDataBean) throws NoSuchAlgorithmException, DuplicateKeyException {
         log.debug("Registering user : {}", registrationDataBean.getEmail());
         final LocalDateTime now = LocalDateTime.now();
         final UserEntity userEntity = UserEntity.builder()
@@ -62,7 +65,24 @@ public class UserAccountService implements IUserAccountService {
                         .build()
                 )
                 .build();
-        return fromEntity(userRepository.save(userEntity));
+        UserEntity saved = null;
+        try{
+            saved= userRepository.save(userEntity);
+        }catch(org.springframework.dao.DuplicateKeyException dke){
+            throw new AbstractException("Duplicated User") {
+                @Override
+                public HttpStatus getStatus() {
+                    return HttpStatus.CONFLICT;
+                }
+
+                @Override
+                public String getErrorCode() {
+                    return "ALREADY_EXISTS";
+                }
+            };
+        }
+
+        return fromEntity(saved);
     }
 
     @PostConstruct

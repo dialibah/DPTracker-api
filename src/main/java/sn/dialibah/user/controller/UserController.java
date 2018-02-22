@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sn.dialibah.common.exception.AbstractException;
 import sn.dialibah.user.model.LoginDataBean;
 import sn.dialibah.user.model.RegistrationDataBean;
 import sn.dialibah.user.model.UserDataBean;
@@ -35,7 +36,13 @@ public class UserController {
             @Valid @RequestBody final RegistrationDataBean registrationDataBean)
             throws NoSuchAlgorithmException {
         LOGGER.debug(LOG_HEADER + " SIGNING UP user ",registrationDataBean);
-        return new ResponseEntity<>(userAccountService.register(registrationDataBean), HttpStatus.OK);
+        try{
+            UserDataBean register = userAccountService.register(registrationDataBean);
+            return new ResponseEntity<>(register, HttpStatus.OK);
+
+        }catch(AbstractException e){
+            return  new ResponseEntity<>(e.getStatus());
+        }
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)

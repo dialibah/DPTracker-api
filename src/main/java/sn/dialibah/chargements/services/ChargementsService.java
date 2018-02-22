@@ -2,12 +2,15 @@ package sn.dialibah.chargements.services;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import sn.dialibah.chargements.models.*;
 import sn.dialibah.chargements.repositories.ChargementsRepository;
 import sn.dialibah.common.exception.ColisNotFoundException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -130,7 +133,33 @@ public class ChargementsService implements IChargementsService {
         return colisInChgt;
     }
 
+//    private String buildGuid() {
+//        return UUID.randomUUID().toString();
+//    }
+
     private String buildGuid() {
-        return UUID.randomUUID().toString();
+        final Iterator<ChargementEntity> chargementEntityIteratorIterator = this.chargementsRepository.
+                findAll(new Sort(Sort.Direction.DESC, "_id")).iterator();
+        ChargementEntity chargementEntity = chargementEntityIteratorIterator.hasNext() ? chargementEntityIteratorIterator.next() : null;
+        if (chargementEntity == null) return "AA-20170000-000";
+        StringBuilder sb = new StringBuilder();
+        sb.append("AA");
+        sb.append("-");
+        final String prevGuid = chargementEntity.getGuid();
+        final String randomLetters = prevGuid.substring(0, 2);
+        final String date = prevGuid.substring(3, 11);
+        final String index = prevGuid.substring(12, 15);
+
+        String newDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        if (newDate.equals(date)) {
+            sb.append(date);
+            sb.append("-");
+            sb.append(String.format("%03d", Integer.parseInt(index) + 1));
+        } else {
+            sb.append(newDate);
+            sb.append("-");
+            sb.append("000");
+        }
+        return sb.toString();
     }
 }
